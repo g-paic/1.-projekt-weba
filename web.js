@@ -32,7 +32,7 @@ var config = {
     secret: process.env.SECRET,
     baseURL: externalUrl || "https://localhost:".concat(port),
     clientID: process.env.CLIENT_ID,
-    issuerBaseURL: 'https://fer-web2.eu.auth0.com',
+    issuerBaseURL: 'https://dev-8tyvyq5cyickzl8g.us.auth0.com',
     clientSecret: process.env.CLIENT_SECRET,
     authorizationParams: {
         response_type: 'code',
