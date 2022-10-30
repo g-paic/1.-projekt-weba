@@ -1,2 +1,0 @@
-U datoteci database.js u klasi pool pod atributom database treba postaviti svoju proizvoljnu bazu podataka, 
-pod password treba staviti šifru te baze podataka, a pod port staviti port te baze podataka

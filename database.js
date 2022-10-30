@@ -189,27 +189,53 @@ const sql_create_comments = `CREATE TABLE komentari(
     komentar text NOT NULL
 )`;
 
+const sql1 = "SELECT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'liga') AS exist;"
+const sql2 = "SELECT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'rezultati') AS exist;"
+const sql3 = "SELECT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'utakmice') AS exist;"
+const sql4 = "SELECT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'datumi') AS exist;"
+const sql5 = "SELECT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'komentari') AS exist;"
+
 pool.connect();
 
 async function make() {
-    await pool.query(sql_drop_league, [])
-    await pool.query(sql_drop_results, [])
-    await pool.query(sql_drop_matches, [])
+    let rez = await pool.query(sql1, []);
+    let exist = rez.rows[0].exist;
 
-    await pool.query(sql_create_league, [])
-    await pool.query(sql_create_results, [])
-    await pool.query(sql_create_matches, [])
+    if(exist == false) {
+        await pool.query(sql_create_league, [])
+        await pool.query(sql_insert_league, [])
+    }
 
-    await pool.query(sql_insert_league, [])
-    await pool.query(sql_insert_results, [])
-    await pool.query(sql_insert_matches, [])
+    rez = await pool.query(sql2, []);
+    exist = rez.rows[0].exist;
 
-    await pool.query(sql_drop_dates, [])
-    await pool.query(sql_create_dates, [])
-    await pool.query(sql_insert_dates, [])
+    if(exist == false) {
+        await pool.query(sql_create_results, [])
+        await pool.query(sql_insert_results, [])
+    }
 
-    await pool.query(sql_drop_comments, [])
-    await pool.query(sql_create_comments, [])
+    rez = await pool.query(sql3, []);
+    exist = rez.rows[0].exist;
+
+    if(exist == false) {
+        await pool.query(sql_create_matches, [])
+        await pool.query(sql_insert_matches, [])
+    }
+
+    rez = await pool.query(sql4, []);
+    exist = rez.rows[0].exist;
+
+    if(exist == false) {
+        await pool.query(sql_create_dates, [])
+        await pool.query(sql_insert_dates, [])
+    }
+
+    rez = await pool.query(sql5, []);
+    exist = rez.rows[0].exist;
+
+    if(exist == false) {
+        await pool.query(sql_create_comments, [])
+    }
 }
 
 module.exports = {
