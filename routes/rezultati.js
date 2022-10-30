@@ -25,6 +25,7 @@ router.get('/', async function(req, res, next) {
 
         for(let rez of rezultatiUtakmica) {
             rezultatiPoKolu[rez.kolo].push(rez);
+            console.log(rez);
         }
 
         for(let kom of komentari) {
