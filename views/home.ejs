@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home</title>
+    </head>
+
+    <body>
+        <% if(username != undefined) { %>
+            <h1><%= username %></h1>
+        <% } %>
+        
+        <ul>
+            <li><a href="/tablica">Tablica</a></li>
+            <li><a href="/rezultati">Rezultati</a></li>
+            <li><a href="/raspored">Raspored</a></li>
+        </ul>
+
+        <ul>
+            <% if(username != undefined) { %>
+                <li>
+                    <form action="/logout" method="GET">
+                        <input type="submit" value="Logout " + username>
+                    </form>
+                </li>
+            <% } %>
+
+            <% if(username == undefined) { %>
+                <li><a href="/prijava">Prijava</a></li>
+                <li><a href="/registracija">Registracija</a></li>
+            <% } %>
+        </ul>
+    </body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Rezultati</title>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <% if(username != undefined) { %>
+            <h1><%= username %></h1>
+        <% } %>
+
+        <p><a href="/">Natrag</a></p>
+
+        <% for(let k of kola.keys()) { %>
+            <table>
+                <tr>
+                    <th colspan="3"><%= k %>. KOLO: <%= kola.get(k) %></th>
+                </tr>
+                <tr>
+                    <th>DOMAĆIN</th>
+                    <th>REZULTAT</th>
+                    <th>GOST</th>
+                </tr>
+                <% for(let utakmica of rezultatiPoKolu[k]) { %>
+                    <tr>
+                        <td><%= utakmica.domacin %></td>
+                        <td><%= utakmica.rezultat %></td>
+                        <td><%= utakmica.gost %></td>
+                        <% if(username != undefined && username.includes("admin") == true) { %>
+                            <td>
+                                <form action="/rezultati/<%= k %>/<%= utakmica.domacin %>/<%= utakmica.gost %>/<%= utakmica.rezultat %>/promijeniRezultat/<%= utakmica.id %>" method="POST">
+                                    <input type="text" name="rezultat" placeholder="rezultat" required>
+                                    <input type="submit" value="Izmijeni">
+                                </form>
+                            </td>
+                        <% } %>
+                    </tr>
+                <% } %>
+            </table>
+
+            <ul>
+                <% for(let komentar of komentariPoKolu[k]) { %>
+                    <li>
+                        <%= komentar.vrijeme.getDate() %>.<%= komentar.vrijeme.getMonth() %>.<%= komentar.vrijeme.getFullYear() %>.
+                        <%= komentar.vrijeme.getHours() %>:<% if(komentar.vrijeme.getMinutes() < 10) { %>0<% } %><%= komentar.vrijeme.getMinutes() %>
+                        <%= komentar.autor %>: <%= komentar.komentar %>
+                        <% if(username != undefined && username == komentar.autor) { %>
+                            <form action="/rezultati/<%= k %>/<%= username %>/izmijeni/<%= komentar.id %>" method="POST">
+                                <input type="text" name="komentar" placeholder="Komentiraj" required>
+                                <input type="submit" value="Izmijeni">
+                            </form>
+
+                            <% if(username != undefined && username.includes("admin") == false) { %>
+                                <form action="/rezultati/<%= k %>/<%= username %>/izbrisi/<%= komentar.id %>" method="POST">
+                                    <input type="submit" value="Izbriši">
+                                </form>
+                            <% } %>
+                        <% } %>
+
+                        <% if(username != undefined && username.includes("admin") == true) { %>
+                            <form action="/rezultati/<%= k %>/<%= username %>/izbrisi/<%= komentar.id %>" method="POST">
+                                <input type="submit" value="Izbriši">
+                            </form>
+                        <% } %>
+                    </li>
+                <% } %>
+            </ul>
+
+            <% if(username != undefined) { %>
+                <form action="/rezultati/<%= k %>" method="POST">
+                    <input type="text" name="komentar" placeholder="Komentiraj" required>
+                    <input type="submit" value="Submit">
+                </form>
+            <% } %>    
+            <p></p>
+        <% } %>
+    </body>
+</html>

@@ -1,0 +1,47 @@
+<% var pozicija; %>
+<% pozicija = 1; %>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tablica</title>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <% if(username != undefined) { %>
+            <h1><%= username %></h1>
+        <% } %>
+
+        <p><a href="/">Natrag</a></p>
+        
+        <table>
+            <tr>
+                <th></th>
+                <th>KLUB</th>
+                <th>POSTIGNUTI GOLOVI</th>
+                <th>PRIMLJENI GOLOVI</th>
+                <th>GOL-RAZLIKA</th>
+                <th>BODOVI</th>
+            </tr>
+
+            <% for(let item of liga) { %>
+                <tr>
+                    <td><%= pozicija %></td>
+                    <td><%= item.klub %></td>
+                    <td><%= item.postignuti_golovi %></td>
+                    <td><%= item.primljeni_golovi %></td>
+                    <td><%= item.gol_razlika %></td>
+                    <td><%= item.bodovi %></td>
+                </tr>
+                <% pozicija = pozicija + 1; %>
+            <% } %>
+        </table>
+    </body>
+</html>
