@@ -198,42 +198,42 @@ const sql5 = "SELECT EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_
 pool.connect();
 
 async function make() {
-    let rez = await pool.query(sql1, []);
-    let exist = rez.rows[0].exist;
+    let rez1 = await pool.query(sql1, []);
+    let rez2 = await pool.query(sql2, []);
+    let rez3 = await pool.query(sql3, []);
+    let rez4 = await pool.query(sql4, []);
+    let rez5 = await pool.query(sql5, []);
 
-    if(exist == false) {
+    let exist1 = rez1.rows[0].exist;
+    let exist2 = rez2.rows[0].exist;
+    let exist3 = rez3.rows[0].exist;
+    let exist4 = rez4.rows[0].exist;
+    let exist5 = rez5.rows[0].exist;
+
+    console.log(exist1);
+    console.log(exist2);
+    console.log(exist3);
+    console.log(exist4);
+    console.log(exist5);
+
+    if(exist1 == false || exist2 == false || exist3 == false || exist4 == false || exist5 == false) {
+        await pool.query(sql_drop_league, [])
         await pool.query(sql_create_league, [])
         await pool.query(sql_insert_league, [])
-    }
 
-    rez = await pool.query(sql2, []);
-    exist = rez.rows[0].exist;
-
-    if(exist == false) {
+        await pool.query(sql_drop_results, [])
         await pool.query(sql_create_results, [])
         await pool.query(sql_insert_results, [])
-    }
 
-    rez = await pool.query(sql3, []);
-    exist = rez.rows[0].exist;
-
-    if(exist == false) {
+        await pool.query(sql_drop_matches, [])
         await pool.query(sql_create_matches, [])
         await pool.query(sql_insert_matches, [])
-    }
 
-    rez = await pool.query(sql4, []);
-    exist = rez.rows[0].exist;
-
-    if(exist == false) {
+        await pool.query(sql_drop_dates, [])
         await pool.query(sql_create_dates, [])
         await pool.query(sql_insert_dates, [])
-    }
 
-    rez = await pool.query(sql5, []);
-    exist = rez.rows[0].exist;
-
-    if(exist == false) {
+        await pool.query(sql_drop_comments, [])
         await pool.query(sql_create_comments, [])
     }
 }
